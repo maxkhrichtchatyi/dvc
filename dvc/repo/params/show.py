@@ -63,7 +63,7 @@ def _read_params(
     deps=False,
     onerror: Optional[Callable] = None,
 ):
-    res: Dict[str, Dict] = defaultdict(dict)
+    res: Dict[str, Dict] = defaultdict(lambda: defaultdict(dict))
     fs_paths = copy(params_fs_paths)
 
     if deps:
@@ -73,7 +73,7 @@ def _read_params(
             )
             if params_dict:
                 name = os.sep.join(repo.fs.path.relparts(param.fs_path))
-                res[name] = params_dict
+                res[name]["data"].update(params_dict["data"])
     else:
         fs_paths += [param.fs_path for param in params]
 
